@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "math-ai"
+version = "1.0.0"
+authors = [
+    {name = "Dylan Nelson"},
+]
+description = "A proof of concept artifical intelligence system to replace mathematicians. (Entirely tongue-in-cheek)"
+readme = "README.md"
+license = {file = "LICENSE"}
+
+[project.scripts]
+math-ai = "math_ai.__main__:main"
