@@ -1,22 +1,30 @@
+from lingua import LanguageDetectorBuilder
+import os
 from random import choice
 
 
 def main():
-    input("Hello! I am your AI mathematics assistant. How can I help you today?\n")
-    print(choice([
-        "This is a straightforward application of known results in the literature.",
-        "This is left as an exercise to the reader.",
-        "The result is trivial.",
-        "The proof is beyond the scope for the current discussion, but can be found in any good textbook on the topic.",
-        "The problem can be reduced to one famously solved by Gauss.",
-        "The problem can be reduced to one famously solved by Euler.",
-        "The problem can be reduced to one famously solved by Ramanujan.",
-        "The problem can be reduced to one famously solved by Erdos.",
-        "The problem can be reduced to one famously solved by Hilbert.",
-        "The problem can be reduced to one famously solved by Poincare.",
-        "The problem can be reduced to one famously solved by Riemann.",
-        "I have a remarkable proof of this theorem, but this terminal is too small to contain it.",
-    ]))
+    detector = LanguageDetectorBuilder.from_all_languages().build()
+
+    prompt = input("Hello! I am your AI mathematics assistant. How can I help you today?\n")
+    language = detector.detect_language_of(prompt)
+    language_code = language.iso_code_639_1.name
+
+    languages_directory = os.path.join(os.path.dirname(__file__), "languages")
+
+    try:
+        with open(os.path.join(languages_directory, f"{language_code}.txt"), "r") as f:
+            responses = f.readlines()
+    except FileNotFoundError:
+        try:
+            with open(os.path.join(languages_directory, "en.txt"), "r") as f:
+                responses = f.readlines()
+            print(f"Sorry, I don't know how to speak {language.name}, so I will loudly and agressively speak English instead")
+        except FileNotFoundError:
+            print("Sorry, I don't know how to speak any language at all")
+            return
+
+    print(choice(responses), end="")
 
 
 if __name__ == "__main__":

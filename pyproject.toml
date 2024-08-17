@@ -11,6 +11,9 @@ authors = [
 description = "A proof of concept artifical intelligence system to replace mathematicians. (Entirely tongue-in-cheek)"
 readme = "README.md"
 license = {file = "LICENSE"}
+dependencies = [
+    "lingua-language-detector"
+]
 
 [project.scripts]
 math-ai = "math_ai.__main__:main"
